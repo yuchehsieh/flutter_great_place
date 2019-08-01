@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider.value(value: GreatPlace()),
+        ChangeNotifierProvider.value(value: GreatPlaces()),
         // Provider<GreatPlace>.value(value: GreatPlace())
       ],
       child: MaterialApp(
