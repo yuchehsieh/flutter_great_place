@@ -18,26 +18,37 @@ class PlacesListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Consumer<GreatPlaces>(
-        builder: (context, greatPlaces, child) => greatPlaces.items.length <= 0
-            ? child
-            : ListView.builder(
-                itemBuilder: (ctx, index) => ListTile(
-                  leading: CircleAvatar(
-                    backgroundImage: FileImage(
-                      greatPlaces.items[index].image,
-                    ),
-                  ),
-                  title: Text(greatPlaces.items[index].title),
-                  onTap: () {
-                    // go to detail page
-                  },
-                ),
-                itemCount: greatPlaces.items.length,
+      body: FutureBuilder(
+        future: Provider.of<GreatPlaces>(context, listen: false)
+            .fetchAndSetPlaces(),
+        builder: (ctx, dataSnapshot) {
+          if (dataSnapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else {
+            return Consumer<GreatPlaces>(
+              builder: (context, greatPlaces, child) =>
+                  greatPlaces.items.length <= 0
+                      ? child
+                      : ListView.builder(
+                          itemBuilder: (ctx, index) => ListTile(
+                            leading: CircleAvatar(
+                              backgroundImage: FileImage(
+                                greatPlaces.items[index].image,
+                              ),
+                            ),
+                            title: Text(greatPlaces.items[index].title),
+                            onTap: () {
+                              // go to detail page
+                            },
+                          ),
+                          itemCount: greatPlaces.items.length,
+                        ),
+              child: const Center(
+                child: const Text('Got no places yet, start adding some!'),
               ),
-        child: const Center(
-          child: const Text('Got no places yet, start adding some!'),
-        ),
+            );
+          }
+        },
       ),
     );
   }
