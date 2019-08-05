@@ -1,4 +1,4 @@
-package com.example.great_place;
+package com.example.great_place.modified;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
